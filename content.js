@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: AGPL-3.0-only
 browser.runtime.onMessage.addListener((message) => {
   if (message.action === "login") {
     document.body.appendChild(document.createElement("iframe")).contentWindow.localStorage.token = `"${message.token}"`;
@@ -34,4 +35,5 @@ browser.runtime.onMessage.addListener((message) => {
       token: token || "Token not found"
     });
   }
+
 });
