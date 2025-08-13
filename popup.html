@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Discord Token Tool</title>
+  <style>
+    :root {
+      --bg: #202225;
+      --muted: #B9BBBE;
+      --white: #FFFFFF;
+      --accent: #8f94f2;
+      --btn-main: #5865F2;
+      --sidebar: #2f3136;
+      --btn-hover: #4752C4;
+    }
+    
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      width: 320px;
+      height: 420px;
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--bg);
+      color: var(--white);
+    }
+    
+    .wrap {
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      height: 100%;
+      box-sizing: border-box;
+    }
+    
+    h3 {
+      margin: 0;
+      padding-bottom: 6px;
+      color: var(--accent);
+      border-bottom: 1px solid var(--accent);
+      font-size: 14px;
+    }
+    
+    button {
+      height: 36px;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 13px;
+      outline: none;
+      cursor: pointer;
+      transition: background-color .12s ease;
+    }
+    
+    #saveBtn {
+      background: var(--btn-main);
+      color: var(--white);
+      border: none;
+    }
+    
+    #saveBtn:hover {
+      background: var(--btn-hover);
+    }
+    
+    #tokenList {
+      flex: 1;
+      overflow-y: auto;
+      max-height: 250px;
+      padding-right: 6px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    
+    #tokenList::-webkit-scrollbar {
+      width: 8px;
+    }
+    
+    #tokenList::-webkit-scrollbar-thumb {
+      background: #2b2d30;
+      border-radius: 6px;
+    }
+    
+    .user-item {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+    
+    .username-btn {
+      flex: 1;
+      text-align: left;
+      background: var(--sidebar);
+      color: var(--white);
+      border: 1px solid var(--accent);
+      padding: 0 10px;
+      height: 36px;
+      border-radius: 6px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    
+    .username-btn:hover {
+      background: #36393F;
+    }
+    
+    .small-btn {
+      min-width: 56px;
+      height: 36px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--white);
+      border: none;
+    }
+    
+    .copy-btn {
+      background: #56b6d8;
+    }
+    
+    .copy-btn:hover {
+      background: #47a6bf;
+    }
+    
+    .del-btn {
+      background: #f04747;
+    }
+    
+    .del-btn:hover {
+      background: #d63f3f;
+    }
+    
+    #toast {
+      position: fixed;
+      bottom: 12px;
+      left: 12px;
+      background: #2f3136;
+      color: var(--white);
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 13px;
+      border: 1px solid var(--accent);
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity .22s ease, transform .22s ease;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
+      z-index: 9999;
+    }
+    
+    #toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    #nameModal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1000;
+    }
+    
+    #nameModalBg {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+    }
+    
+    #nameModalBox {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: #2f3136;
+      padding: 15px;
+      border-radius: 8px;
+      border: 1px solid var(--accent);
+      width: 260px;
+      box-sizing: border-box;
+    }
+    
+    #nameModalBox h4 {
+      margin: 0 0 10px;
+      font-size: 14px;
+      color: var(--white);
+    }
+    
+    #nameInput {
+      width: calc(100% - 4px);
+      /* 両側に余白を作るため幅を縮小 */
+      margin: 0 2px;
+      /* 左右に2px余白 */
+      padding: 6px 8px;
+      border-radius: 4px;
+      border: 1px solid var(--accent);
+      background: #202225;
+      color: #fff;
+      box-sizing: border-box;
+    }
+    
+    #nameModalBox .modal-buttons {
+      text-align: right;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <button id="saveBtn">現在のトークンを保存</button>
+    <h3>保存済みアカウント</h3>
+    <div id="tokenList"></div>
+  </div>
+  <div id="toast"></div>
+  <div id="nameModal">
+    <div id="nameModalBg"></div>
+    <div id="nameModalBox">
+      <h4>保存する名前を入力</h4>
+      <input type="text" id="nameInput" placeholder="New Account" />
+      <div class="modal-buttons">
+        <button id="nameCancel" class="small-btn del-btn">キャンセル</button>
+        <button id="nameOk" class="small-btn copy-btn">保存</button>
+      </div>
+    </div>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>
