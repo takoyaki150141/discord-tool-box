@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: AGPL-3.0-only
 let toastTimer = null;
 
 function showToast(msg, ms = 1800) {
@@ -128,4 +129,5 @@ async function renderAccounts() {
     listEl.appendChild(div);
   });
 }
+
 renderAccounts();
